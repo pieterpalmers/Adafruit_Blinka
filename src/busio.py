@@ -35,6 +35,11 @@ class I2C(Lockable):
 
             self._i2c = _I2C(frequency=frequency)
             return
+        if detector.board.ftdi_ft2232h:
+            from adafruit_blinka.microcontroller.ft2232h.i2c import I2C as _I2C
+
+            self._i2c = _I2C(frequency=frequency)
+            return
         if detector.board.binho_nova:
             from adafruit_blinka.microcontroller.nova.i2c import I2C as _I2C
 
@@ -152,6 +157,13 @@ class SPI(Lockable):
             self._spi = _SPI()
             self._pins = (SCK, MOSI, MISO)
             return
+        if detector.board.ftdi_ft2232h:
+            from adafruit_blinka.microcontroller.ft2232h.spi import SPI as _SPI
+            from adafruit_blinka.microcontroller.ft2232h.pin import SCK, MOSI, MISO
+
+            self._spi = _SPI()
+            self._pins = (SCK, MOSI, MISO)
+            return
         if detector.board.binho_nova:
             from adafruit_blinka.microcontroller.nova.spi import SPI as _SPI
             from adafruit_blinka.microcontroller.nova.pin import SCK, MOSI, MISO
@@ -241,6 +253,9 @@ class SPI(Lockable):
         elif detector.board.ftdi_ft232h:
             from adafruit_blinka.microcontroller.ft232h.spi import SPI as _SPI
             from adafruit_blinka.microcontroller.ft232h.pin import Pin
+        elif detector.board.ftdi_ft2232h:
+            from adafruit_blinka.microcontroller.ft2232h.spi import SPI as _SPI
+            from adafruit_blinka.microcontroller.ft2232h.pin import Pin
         elif detector.board.binho_nova:
             from adafruit_blinka.microcontroller.nova.spi import SPI as _SPI
             from adafruit_blinka.microcontroller.nova.pin import Pin
